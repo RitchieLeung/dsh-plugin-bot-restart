@@ -1,0 +1,8 @@
+# Bundle patch for dsh-plugin-bot-restart.
+#
+# 「服务」面板：状态 + 软重载（HMR 重组 profile）+ 真重启（手动启动时自我 relaunch，
+# systemd 托管时只退出、交给 Restart=always）。和事务/电子书平级，各自一条 plugin row。
+
+- insert:
+    - id: bot-restart
+      name: 'dsh-plugin-bot-restart'

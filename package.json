@@ -1,0 +1,24 @@
+{
+  "name": "dsh-plugin-bot-restart",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "服务面板：查看 dsh web 进程状态、软重载插件（HMR 重组 profile）、以及真的重启服务（手动启动的自我重启，systemd 托管的交给 systemd）。",
+  "main": "./lib/host.js",
+  "exports": {
+    ".": "./lib/host.js",
+    "./client": "./lib/client.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}
