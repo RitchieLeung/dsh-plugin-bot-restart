@@ -10,7 +10,9 @@
     "./client": "./lib/client.js"
   },
   "scripts": {
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "lint": "node scripts/check.mjs",
+    "check": "node scripts/check.mjs && node --test test/*.test.js"
   },
   "dsh": {
     "bundle": {

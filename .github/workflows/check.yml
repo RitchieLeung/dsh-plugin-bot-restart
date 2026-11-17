@@ -1,0 +1,20 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      # 零依赖语法检查：这几个仓库没有 linter 也没有构建步骤，client.js 是原样发给
+      # 浏览器的。这一道门专门拦「文件语法错但测试绿」这类问题。
+      - name: 语法检查
+        run: node scripts/check.mjs
+      - name: 测试
+        run: node --test test/*.test.js
