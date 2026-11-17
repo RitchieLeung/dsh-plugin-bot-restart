@@ -48,6 +48,12 @@ test('bad requests are rejected', async () => {
   assert.equal((await handle({ action: 'explode' })).error.code, 'UNKNOWN_ACTION');
 });
 
+test('declares the connection injection (without it a cold boot fails to activate)', async () => {
+  const module = await import('../lib/host.js');
+  assert.ok(Array.isArray(module.inject), 'host.js 必须导出 inject 数组');
+  assert.ok(module.inject.includes('connection'), "inject 必须包含 'connection'");
+});
+
 test('host registers the route with the real service behind it', () => {
   const routes = [];
   const effects = [];
