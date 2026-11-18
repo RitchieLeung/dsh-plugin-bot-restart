@@ -3,6 +3,56 @@
 「服务」面板：看清这个 `dsh web` 进程是谁，**软重载插件**，以及**真的重启服务**。
 就是为了不再「杀终端 → 重新敲 `dsh web`」。
 
+这是一个**独立插件**：不依赖 dscord、事务或知识库插件，也没有第三方 npm 依赖。
+已在 Node 24、dsh `0.2.2-rc.1` 上验证；macOS 手动启动和 Linux/systemd 两种重启方式都支持。
+
+## 安装（本机或 146 都一样）
+
+> 只 `clone` / `add` 还不够：必须同时把包名加进 profile 的 `dsh.profile.bundles`，插件才会激活。
+
+### 1. 把插件装进 profile
+
+```bash
+dsh plugin add github:RitchieLeung/dsh-plugin-bot-restart#v0.1.0
+```
+
+这条命令会把 GitHub 上的 `v0.1.0` 版本安装到默认 profile。也可以先 `git clone`，再从本地目录安装：
+
+```bash
+git clone --branch v0.1.0 https://github.com/RitchieLeung/dsh-plugin-bot-restart.git
+dsh plugin add "$PWD/dsh-plugin-bot-restart"
+```
+
+### 2. 激活 bundle
+
+编辑对应 profile 的 `package.json`（默认是 `~/.dsh/profiles/web/package.json`），在
+`dsh.profile.bundles` 数组里加一项：
+
+```jsonc
+{
+  "dsh": {
+    "profile": {
+      "bundles": [
+        // …已有的 bundle
+        "dsh-plugin-bot-restart"
+      ]
+    }
+  }
+}
+```
+
+然后按原来的方式重启一次 `dsh web`；systemd 托管的机器（例如 146）就重启对应的 systemd 服务。
+刷新页面后，左侧栏应出现「服务」电源图标。
+
+### 3. 验证
+
+```bash
+npm test
+```
+
+在面板里打开「服务」，应能看到当前 dsh 的 PID、端口、启动命令和运行时长。没有这些说明
+bundle 未激活，而不是需要另外配置 dscord。
+
 ## 两种动作，别搞混
 
 | 动作 | 做了什么 | 什么时候用 |
