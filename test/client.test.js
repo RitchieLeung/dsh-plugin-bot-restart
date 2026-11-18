@@ -125,3 +125,10 @@ test('Panel renders without throwing when there is no status yet', () => {
   const tree = Panel();
   assert.ok(tree, '无 status 时也应当渲染出骨架，而不是抛错/返回空');
 });
+
+test('client.js 声明手机断点与响应式布局', () => {
+  // 服务面板无侧栏，手机上主要靠断点里的单列布局 + 全宽按钮适配。
+  assert.match(SOURCE, /@media\s*\(max-width:\s*768px\)/, '必须有手机断点');
+  assert.match(SOURCE, /\.sv-row\{flex-direction:column/, '信息行在手机上要上下堆叠');
+  assert.match(SOURCE, /\.sv-btn\{width:100%\}/, '按钮在手机上要占满宽');
+});
